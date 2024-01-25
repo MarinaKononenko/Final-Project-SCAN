@@ -3,13 +3,14 @@ import styles from "./SearchPage.module.css";
 import DocumentImage from "../../assets/images/SearchPageImg3.svg";
 import FolderImage from "../../assets/images/SearchPageImg2.svg";
 import GroupImage from "../../assets/images/SearchPageImg1.svg";
-import { getGeneralData, getData } from "../../api/dataService";
+import { getGeneralData, getData, getDetailData } from "../../api/dataService";
 import { useNavigate } from "react-router-dom";
 import ResultContext from "../../context/createContext";
 
+
 const SearchPage = () => {
   const navigate = useNavigate();
-  const context = useContext(ResultContext);
+  const context = useContext(ResultContext)
 
   const [searchData, setSearchData] = useState({
     inn: "",
@@ -28,19 +29,20 @@ const SearchPage = () => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    setSearchData((prevSearchData) => ({
-      ...prevSearchData,
+    setSearchData({
+      ...searchData,
       [name]: type === "checkbox" ? checked : value,
-    }));
+    });
   };
 
   const handleSearch = async () => {
-    navigate('/result');
-    context.setGeneralData(await getGeneralData(searchData));
-    context.setData(await getData(searchData));
+    navigate('/result')
+    context.setGeneralData(await getGeneralData(searchData))
+    context.setData(await getData(searchData))
   };
 
   const isFormValid = () => {
+    // Проверка на корректность введенных данных
     return (
       searchData.inn.length > 0 &&
       searchData.tonality.length > 0 &&
@@ -51,6 +53,7 @@ const SearchPage = () => {
   };
 
   return (
+
     <main className={styles.searchPage}>
       <div className={styles.container}>
         <h1 className={styles.title}>
@@ -139,7 +142,95 @@ const SearchPage = () => {
             <div className={styles.column}>
               <div className={styles.right}>
                 <div className={styles.checkbox}>
-                  {/* ... ваш остальной код ... */}
+                  <input
+                    type="checkbox"
+                    id="completeness"
+                    name="completeness"
+                    checked={searchData.completeness}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="completeness" className={styles.label}>
+                    Признак максимальной полноты
+                  </label>
+                </div>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="businessContext"
+                    name="businessContext"
+                    checked={searchData.businessContext}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="businessContext" className={styles.label}>
+                    Упоминания в бизнес-контексте
+                  </label>
+                </div>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="mainRole"
+                    name="mainRole"
+                    checked={searchData.mainRole}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="mainRole" className={styles.label}>
+                    Главная роль в публикации
+                  </label>
+                </div>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="riskFactors"
+                    name="riskFactors"
+                    checked={searchData.riskFactors}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="riskFactorss" for="riskFactors" className={styles.label}>
+                    Публикации только с риск-факторами{" "}
+                  </label>
+                </div>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="technicalNews"
+                    name="technicalNews"
+                    checked={searchData.technicalNews}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="technicalNews" className={styles.label}>
+                    Включать технические новости рынков
+                  </label>
+                </div>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="announcements"
+                    name="announcements"
+                    checked={searchData.announcements}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="announcements" className={styles.label}>
+                    Включать анонсы и календари
+                  </label>
+                </div>
+                <div className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="newsDigests"
+                    name="newsDigests"
+                    checked={searchData.newsDigests}
+                    onChange={handleInputChange}
+                    className={styles.checkbox}
+                  />
+                  <label htmlFor="newsDigests" className={styles.label}>
+                    Включать сводки новостей
+                  </label>
                 </div>
                 <button
                   type="button"
@@ -154,13 +245,20 @@ const SearchPage = () => {
             </div>
           </form>
           <div className={styles.imageContainer}>
-            <img src={DocumentImage} alt="Search Page" className={styles.imageDoc} />
+            <img
+              src={DocumentImage}
+              alt="Search Page"
+              className={styles.imageDoc}
+            />
             <img src={FolderImage} alt="Search Page" className={styles.imageFol} />
             <img src={GroupImage} alt="Search Page" className={styles.imageGro} />
           </div>
         </div>
       </div>
+
     </main>
+
+
   );
 };
 
