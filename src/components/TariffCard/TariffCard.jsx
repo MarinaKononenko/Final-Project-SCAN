@@ -3,55 +3,67 @@ import { Link } from "react-router-dom";
 import styles from "./TariffCard.module.css";
 import Tick from "../../assets/images/Tick-image.svg";
 
-function TariffCard({ isPurchased, color, title, prices, details }) {
-  const { primaryColor, secondaryColor } = color;
-  const [header, subTitle, icon] = title;
-
+function TariffCard(props) {
   return (
     <div
-      style={isPurchased ? { border: `1px solid ${primaryColor}` } : { border: "none" }}
+      style={
+        props.isPurchased
+          ? {
+              border: `1px solid ${props.color.primaryColor}`,
+            }
+          : { border: "none" }
+      }
       className={styles.tariffCard}
     >
       <div
-        style={{ backgroundColor: primaryColor, color: secondaryColor }}
+        style={{
+          backgroundColor: props.color.primaryColor,
+          color: props.color.secondaryColor,
+        }}
         className={styles.tariffHeader}
       >
         <div className={styles.tariffInfo}>
-          <header>{header}</header>
-          <div>{subTitle}</div>
+          <header>{props.title[0]}</header>
+          <div>{props.title[1]}</div>
         </div>
         <div className={styles.tariffImage}>
-          <img src={icon} alt="TariffImage" />
+          <img src={props.title[2].icon} alt="TariffImage" />
         </div>
       </div>
       <div className={styles.currentTarifContainer}>
-        {isPurchased ? (
+        {props.isPurchased ? (
           <div className={styles.currentTariff}>Текущий тариф</div>
         ) : (
           <div className={styles.emptyLine}></div>
         )}
       </div>
       <div className={styles.prices}>
-        <div className={styles.currentPrice}>{prices[0]}</div>
-        <div className={styles.oldPrice}>{prices[1]}</div>
+        <div className={styles.currentPrice}>{props.prices[0]}</div>
+        <div className={styles.oldPrice}>{props.prices[1]}</div>
       </div>
       <div>
-        {prices[2] ? (
-          <div className={styles.creditPrice}>{prices[2]}</div>
+        {props.prices[2] ? (
+          <div className={styles.creditPrice}>{props.prices[2]}</div>
         ) : (
           <div className={styles.emptyCredit}></div>
         )}
       </div>
       <div className={styles.detailsTitle}>В тариф входит:</div>
       <div className={styles.details}>
-        {details.map((detail, index) => (
-          <div key={index} className={styles.detailsText}>
-            <img src={Tick} alt="Галочка" />
-            {detail}
-          </div>
-        ))}
+        <div className={styles.detailsText}>
+          <img src={Tick} alt="Галочка" />
+          {props.details[0]}
+        </div>
+        <div className={styles.detailsText}>
+          <img src={Tick} alt="Галочка" />
+          {props.details[1]}
+        </div>
+        <div className={styles.detailsText}>
+          <img src={Tick} alt="Галочка" />
+          {props.details[2]}
+        </div>
       </div>
-      {isPurchased ? (
+      {props.isPurchased ? (
         <div className={styles.toMyAccount}>
           <Link to={"#"}>Перейти в личный кабинет</Link>
         </div>
